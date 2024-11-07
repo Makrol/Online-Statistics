@@ -1,23 +1,16 @@
-import logo from './logo.svg';
+import CsvUploader from './Components/CsvUploader';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="left-section">
+          <CsvUploader />
+      </div>
+      <div className="right-section">
+        {/* Treść drugiego div */}
+      </div>
+      
     </div>
   );
 }
