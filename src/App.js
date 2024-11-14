@@ -1,16 +1,13 @@
-import CsvUploader from './Components/CsvUploader';
 import './App.css';
+import Tabs from './Components/Tabs/Tabs';
 
 function App() {
+  
   return (
     <div className="App">
-      <div className="left-section">
-          <CsvUploader />
+      <div className="section">
+          <Tabs/>
       </div>
-      <div className="right-section">
-        {/* Treść drugiego div */}
-      </div>
-      
     </div>
   );
 }

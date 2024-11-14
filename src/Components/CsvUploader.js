@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import Papa from "papaparse";
 import "./CsvUploader.css";
 
-const CsvUploader = () => {
-  const [tableData, setTableData] = useState([]);
-  const [columns, setColumns] = useState([]);
+const CsvUploader = ({tableData,setTableData,
+                      columns,setColumns,
+                      quartiles,setQuartiles,
+                      selectedColumns,setSelectedColumns,
+                      groupByColumn,setGroupByColumn}) => {
+
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const [groupByColumn, setGroupByColumn] = useState(null);
-  const [selectedColumns, setSelectedColumns] = useState([]);
-  const [quartiles, setQuartiles] = useState({});
+
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -58,51 +60,13 @@ const CsvUploader = () => {
       setSelectedColumns((prevSelected) =>
         prevSelected.filter((col) => col !== column)
       );
-    } else if (selectedColumns.length < 4) {
+    } else if (selectedColumns.length < 5) {
       setSelectedColumns((prevSelected) => [...prevSelected, column]);
     } else {
-      alert("Można wybrać maksymalnie 4 kolumny.");
+      alert("Można wybrać maksymalnie 5 kolumny.");
     }
   };
 
-  const calculateQuartiles = () => {
-    if (groupByColumn === null || selectedColumns.length === 0) return;
-
-    const groupIndex = columns.indexOf(groupByColumn);
-    const quartilesResults = {};
-
-    const groups = tableData.reduce((acc, row) => {
-      const key = row[groupIndex];
-      const values = selectedColumns.map((col) => {
-        const index = columns.indexOf(col);
-        return parseFloat(row[index]);
-      });
-
-      if (!isNaN(values[0])) {
-        if (!acc[key]) acc[key] = [];
-        acc[key].push(values);
-      }
-      return acc;
-    }, {});
-
-    for (let key in groups) {
-      const groupValues = groups[key];
-
-      const quartileValues = selectedColumns.map((column, colIndex) => {
-        const values = groupValues.map((group) => group[colIndex]).sort((a, b) => a - b);
-
-        const q1 = values[Math.floor(values.length / 4)];
-        const q2 = values[Math.floor(values.length / 2)];
-        const q3 = values[Math.floor((3 * values.length) / 4)];
-
-        return { Q1: q1, Q2: q2, Q3: q3 };
-      });
-
-      quartilesResults[key] = quartileValues;
-    }
-
-    setQuartiles(quartilesResults);
-  };
 
   return (
     <div>
@@ -154,40 +118,6 @@ const CsvUploader = () => {
               </tbody>
             </table>
           </div>
-
-          <div className="controls">
-            <h3>Wybierz kolumnę do grupowania:</h3>
-            <select
-              onChange={(e) => setGroupByColumn(e.target.value)}
-              value={groupByColumn || ""}
-            >
-              <option value="">Wybierz kolumnę</option>
-              {columns.map((col, index) => (
-                <option key={index} value={col}>
-                  {col}
-                </option>
-              ))}
-            </select>
-            <button onClick={calculateQuartiles}>Oblicz kwartyli</button>
-          </div>
-
-          {Object.keys(quartiles).length > 0 && (
-            <div className="quartile-results">
-              <h3>Wyniki kwartyli:</h3>
-              <ul>
-                {Object.entries(quartiles).map(([group, quartileValues], index) => (
-                  <li key={index}>
-                    <strong>{group}:</strong>
-                    {quartileValues.map((q, colIndex) => (
-                      <div key={colIndex}>
-                        {selectedColumns[colIndex]}: Q1: {q.Q1}, Q2: {q.Q2}, Q3: {q.Q3}
-                      </div>
-                    ))}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </>
       )}
     </div>
