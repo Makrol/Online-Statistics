@@ -11,6 +11,7 @@ function App() {
         {/* Treść drugiego div */}
       </div>
       
+          <Tabs/>
     </div>
   );
 }

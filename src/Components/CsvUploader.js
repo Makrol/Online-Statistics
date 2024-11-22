@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Papa from "papaparse";
 import "./CsvUploader.css";
 
 const CsvUploader = () => {
   const [tableData, setTableData] = useState([]);
   const [columns, setColumns] = useState([]);
+const CsvUploader = ({ data, setData }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [groupByColumn, setGroupByColumn] = useState(null);
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -21,6 +23,14 @@ const CsvUploader = () => {
           setColumns(header);
           setTableData(rows);
           setQuartiles({});
+          const [header, ...rows] = result.data;
+
+          setData((prevData) => ({
+            ...prevData,
+            columns: header,
+            tableData: rows,
+            quartiles: [],
+          }));
         },
         header: false,
         skipEmptyLines: true,
@@ -41,6 +51,14 @@ const CsvUploader = () => {
       return 0;
     });
     setTableData(sortedData);
+    setData((prevData) => ({
+      ...prevData,
+      tableData: [...prevData.tableData].sort((a, b) => {
+        if (a[columnIndex] < b[columnIndex]) return direction === "asc" ? -1 : 1;
+        if (a[columnIndex] > b[columnIndex]) return direction === "asc" ? 1 : -1;
+        return 0;
+      }),
+    }));
   };
 
   const handleRemoveColumn = (columnIndex) => {
@@ -51,6 +69,13 @@ const CsvUploader = () => {
       row.filter((_, index) => index !== columnIndex)
     );
     setTableData(newTableData);
+    setData((prevData) => ({
+      ...prevData,
+      columns: prevData.columns.filter((_, index) => index !== columnIndex),
+      tableData: prevData.tableData.map((row) =>
+        row.filter((_, index) => index !== columnIndex)
+      ),
+    }));
   };
 
   const toggleColumnSelection = (column) => {
@@ -81,6 +106,23 @@ const CsvUploader = () => {
       if (!isNaN(values[0])) {
         if (!acc[key]) acc[key] = [];
         acc[key].push(values);
+  const toggleColumnSelection = (columns) => {
+    setData((prevData) => {
+      if (prevData.selectedColumns.includes(columns)) {
+        return {
+          ...prevData,
+          selectedColumns: prevData.selectedColumns.filter(
+            (col) => col !== columns
+          ),
+        };
+      } else if (prevData.selectedColumns.length < 5) {
+        return {
+          ...prevData,
+          selectedColumns: [...prevData.selectedColumns, columns],
+        };
+      } else {
+        alert("Można wybrać maksymalnie 5 kolumny.");
+        return prevData;
       }
       return acc;
     }, {});
@@ -102,6 +144,7 @@ const CsvUploader = () => {
     }
 
     setQuartiles(quartilesResults);
+    });
   };
 
   return (
@@ -110,6 +153,15 @@ const CsvUploader = () => {
       <input type="file" accept=".csv" onChange={handleFileUpload} />
 
       {tableData.length > 0 && (
+    <Fragment>
+      {data.tableData.length === 0 ? (
+        <div>
+          <h2>Wgraj plik CSV</h2>
+          <input type="file" accept=".csv" onChange={handleFileUpload} />
+        </div>
+      ) : null}
+
+      {data.tableData.length > 0 && (
         <>
           <div className="table-container">
             <table>
@@ -125,9 +177,27 @@ const CsvUploader = () => {
                             : " ▼"
                           : ""}
                       </span>
+          <table>
+            <thead>
+              <tr>
+                {data.columns.map((col, index) => (
+                  <th key={index}>
+                    <span
+                      onClick={() => handleSort(index)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {col}
+                      {sortConfig.key === index
+                        ? sortConfig.direction === "asc"
+                          ? " ▲"
+                          : " ▼"
+                        : ""}
+                    </span>
+                    <div>
                       <button
                         onClick={() => handleRemoveColumn(index)}
                         className="remove-button"
+                        className="button"
                       >
                         Usuń
                       </button>
@@ -135,11 +205,26 @@ const CsvUploader = () => {
                         onClick={() => toggleColumnSelection(col)}
                         className={`select-button ${
                           selectedColumns.includes(col) ? "selected" : ""
+                        className={`button select-button ${
+                          data.selectedColumns.includes(col) ? "selected" : ""
                         }`}
                       >
                         {selectedColumns.includes(col) ? "Anuluj wybór" : "Wybierz"}
+                        {data.selectedColumns.includes(col)
+                          ? "Anuluj wybór"
+                          : "Wybierz"}
                       </button>
                     </th>
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.tableData.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={cellIndex}>{cell}</td>
                   ))}
                 </tr>
               </thead>
@@ -188,10 +273,14 @@ const CsvUploader = () => {
               </ul>
             </div>
           )}
+            </tbody>
+          </table>
         </>
       )}
     </div>
+    </Fragment>
   );
 };
 
 export default CsvUploader;
+
