@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { mean, median, std, min, max, sum } from "mathjs";
+import { mean, median, std, min, max, sum, variance, mode } from "mathjs";
 
 function StatTab({ data, setData }) {
   useEffect(() => {
@@ -34,6 +34,9 @@ function StatTab({ data, setData }) {
           min: min(columnData),
           max: max(columnData),
           sum: sum(columnData),
+          range: max(columnData) - min(columnData),
+          variance: variance(columnData),
+          mode: mode(columnData)[0],
           //   count: columnData.length,
         };
 
@@ -73,6 +76,10 @@ function StatTab({ data, setData }) {
                     <p>Minimum: {stats?.min}</p>
                     <p>Maksimum: {stats?.max}</p>
                     <p>Suma: {stats?.sum?.toFixed(2)}</p>
+                    <p>Zakres: {stats?.range}</p>
+                    <p>Wariancja: {stats?.variance?.toFixed(2)}</p>
+                    <p>Moda: {stats?.mode}</p>
+
                     {/* <p>Liczba danych: {stats?.count}</p> */}
                   </>
                 ) : (

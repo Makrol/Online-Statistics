@@ -78,60 +78,58 @@ const CsvUploader = ({ data, setData }) => {
   return (
     <>
       {data.tableData.length === 0 ? (
-        <div>
+        <main>
           <h2>Wgraj plik CSV</h2>
           <input type="file" accept=".csv" onChange={handleFileUpload} />
-        </div>
+        </main>
       ) : null}
 
       {data.tableData.length > 0 && (
-        <>
-          <table>
-            <thead>
-              <tr>
-                {data.columns.map((col, index) => (
-                  <th key={index}>
-                    <span onClick={() => handleSort(index)}>
-                      {col}
-                      {sortConfig.key === index
-                        ? sortConfig.direction === "asc"
-                          ? " ▲"
-                          : " ▼"
-                        : ""}
-                    </span>
-                    <div>
-                      <button
-                        onClick={() => handleRemoveColumn(index)}
-                        className="button"
-                      >
-                        Usuń
-                      </button>
-                      <button
-                        onClick={() => toggleColumnSelection(col)}
-                        className={`button select-button ${
-                          data.selectedColumns.includes(col) ? "selected" : ""
-                        }`}
-                      >
-                        {data.selectedColumns.includes(col)
-                          ? "Anuluj wybór"
-                          : "Wybierz"}
-                      </button>
-                    </div>
-                  </th>
+        <table>
+          <thead>
+            <tr>
+              {data.columns.map((col, index) => (
+                <th key={index}>
+                  <span onClick={() => handleSort(index)}>
+                    {col}
+                    {sortConfig.key === index
+                      ? sortConfig.direction === "asc"
+                        ? " ▲"
+                        : " ▼"
+                      : ""}
+                  </span>
+                  <div>
+                    <button
+                      onClick={() => handleRemoveColumn(index)}
+                      className="button"
+                    >
+                      Usuń
+                    </button>
+                    <button
+                      onClick={() => toggleColumnSelection(col)}
+                      className={`button select-button ${
+                        data.selectedColumns.includes(col) ? "selected" : ""
+                      }`}
+                    >
+                      {data.selectedColumns.includes(col)
+                        ? "Anuluj wybór"
+                        : "Wybierz"}
+                    </button>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.tableData.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
                 ))}
               </tr>
-            </thead>
-            <tbody>
-              {data.tableData.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((cell, cellIndex) => (
-                    <td key={cellIndex}>{cell}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
+            ))}
+          </tbody>
+        </table>
       )}
     </>
   );
