@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ChernoffFaceTab from './ChernoffFaceTab';
-import StatTabe from './StatTab';
-import CsvUploader from '../CsvUploader';
+import React, { useEffect, useState } from "react";
+import ChernoffFaceTab from "./ChernoffFaceTab";
+import StatTabe from "./StatTab";
+import CsvUploader from "../CsvUploader";
 function Tabs() {
   // Ustawienie stanu dla aktywnej karty
   const [activeTab, setActiveTab] = useState(0);
@@ -11,29 +11,41 @@ function Tabs() {
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [quartiles, setQuartiles] = useState([]);
 
-  const [data,setData] = useState({
-    activeTab:0,
-    tableData:[],
-    columns:[],
+  const [data, setData] = useState({
+    activeTab: 0,
+    tableData: [],
+    columns: [],
     groupByColumn: null,
     selectedColumns: [],
-    quartiles: []
-  })
+    quartiles: [],
+  });
 
-  useEffect(()=>{
-    console.log(data)
-  },[data])
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   // Zawartość kart - każdy wpis odnosi się do konkretnego komponentu
   const tabs = [
-    { id: 0, title: "Dane", component: <CsvUploader data={data} setData={setData}/> },
-    { id: 1, title: "Twarze Chernoff'a", component: <ChernoffFaceTab data={data} setData={setData}/> },
-    { id: 2, title: "Statystyki", component: <StatTabe/> },
+    {
+      id: 0,
+      title: "Dane",
+      component: <CsvUploader data={data} setData={setData} />,
+    },
+    {
+      id: 1,
+      title: "Twarze Chernoff'a",
+      component: <ChernoffFaceTab data={data} setData={setData} />,
+    },
+    {
+      id: 2,
+      title: "Statystyki",
+      component: <StatTabe data={data} setData={setData} />,
+    },
   ];
 
   return (
     <div>
       {/* Przełączniki kart */}
-      <div className='tabsMenu'>
+      <div className="tabsMenu">
         {tabs.map((tab, index) => (
           <div
             key={tab.id}
@@ -44,7 +56,6 @@ function Tabs() {
               color: activeTab === index ? "#fff" : "#000",
               marginRight: "5px",
               borderRadius: "10px",
-
             }}
           >
             {tab.title}
@@ -53,9 +64,7 @@ function Tabs() {
       </div>
 
       {/* Zawartość aktywnej karty */}
-      <div className='tab'>
-        {tabs[activeTab].component}
-      </div>
+      <div className="tab">{tabs[activeTab].component}</div>
     </div>
   );
 }
