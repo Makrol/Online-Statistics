@@ -52,11 +52,10 @@ function StatTab({ data, setData }) {
   }, [data, setData]);
 
   return (
-    <div>
+    <main>
       <h1>Statystyki agregujące</h1>
       {data.statistics && Object.keys(data.statistics).length > 0 && (
         <div>
-          <h2>Statystyki:</h2>
           {Object.entries(data.statistics).map(([column, stats]) =>
             (!/\b(id|ID|Id)\b/.test(column) &&
               data.selectedColumns.length > 0 &&
@@ -84,7 +83,7 @@ function StatTab({ data, setData }) {
           )}
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

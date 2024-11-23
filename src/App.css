@@ -1,15 +1,16 @@
 .App {
-  color:aliceblue;
-  padding: 10px;
+  color: aliceblue;
 }
 
-body{
+body {
   background-color: #edf2fb;
-  margin: 10px;
-  margin-left: 10vw;
-  margin-right: 10vw;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  padding: 5rem;
+}
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .flex-container {
   display: flex;
@@ -26,88 +27,89 @@ body{
   font-size: 30px;
 }
 
-table{
-
+table {
   border-spacing: 0 10px;
   border-collapse: separate;
+  width: 100%;
 }
-tr{
+tr {
   font-weight: 600;
   margin: 20px;
 }
-th{
+th {
   padding: 20px;
 }
-th span{
-  font-size: 20px;
+th span {
+  font-size: 1rem;
+  cursor: "pointer";
 }
-th div{
-    display: flex;
-    gap: 10px;
+th div {
+  display: flex;
+  gap: 10px;
 }
-td{
+td {
   text-align: center;
 }
-.button{
-  background-Color: #50abe7;
+.button {
+  background-color: #50abe7;
   border: none;
-  color:#fff;
+  color: #fff;
   border-radius: 5px;
   padding: 5px 10px 5px 10px;
 }
-.quartilesTab{
+.quartilesTab {
   background-color: #409bd8;
   border-radius: 10px;
   padding: 10px;
   display: flex;
   gap: 30px;
 }
-.quartilesTabContainer{
+.quartilesTabContainer {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  gap:10px
+  gap: 10px;
 }
 .chernofffaceContainer {
   justify-content: center;
   align-items: center;
   display: flex;
 }
-.chernofffaceContainer div{
+.chernofffaceContainer div {
   background-color: #12527c;
   padding: 10px;
   border-radius: 10px;
 }
-.controls{
+.controls {
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
   padding: 30px;
 }
-.controls div{
-  gap:10px;
+.controls div {
+  gap: 10px;
   display: flex;
 }
 
-.tab{
+.tab {
   background-color: #6cbde9;
-  justify-content: center;
-  align-items: center;
   display: flex;
   padding-bottom: 30px;
-  border-radius: 20px;
+  border-radius: 10px;
   -webkit-box-shadow: -16px 33px 36px -30px rgba(20, 20, 62, 1);
   -moz-box-shadow: -16px 33px 36px -30px rgba(20, 20, 62, 1);
   box-shadow: -16px 33px 36px -30px rgba(20, 20, 62, 1);
   flex-direction: column;
   overflow: auto;
+  height: calc(95dvh - 10rem - 30px - 2 * 10px);
 }
-.tabsMenu{
+.tabsMenu {
+  height: 5dvh;
   display: flex;
   background-color: #1682bd;
   justify-content: center;
-  width: 30vw;
+  width: clamp(20rem, 30vw, 100rem);
   border-radius: 10px 10px 0px 0px;
   padding: 10px;
   margin-left: auto;

@@ -35,8 +35,10 @@ const CsvUploader = ({ data, setData }) => {
     setData((prevData) => ({
       ...prevData,
       tableData: [...prevData.tableData].sort((a, b) => {
-        if (a[columnIndex] < b[columnIndex]) return direction === "asc" ? -1 : 1;
-        if (a[columnIndex] > b[columnIndex]) return direction === "asc" ? 1 : -1;
+        if (a[columnIndex] < b[columnIndex])
+          return direction === "asc" ? -1 : 1;
+        if (a[columnIndex] > b[columnIndex])
+          return direction === "asc" ? 1 : -1;
         return 0;
       }),
     }));
@@ -74,7 +76,7 @@ const CsvUploader = ({ data, setData }) => {
   };
 
   return (
-    <Fragment>
+    <>
       {data.tableData.length === 0 ? (
         <div>
           <h2>Wgraj plik CSV</h2>
@@ -89,10 +91,7 @@ const CsvUploader = ({ data, setData }) => {
               <tr>
                 {data.columns.map((col, index) => (
                   <th key={index}>
-                    <span
-                      onClick={() => handleSort(index)}
-                      style={{ cursor: "pointer" }}
-                    >
+                    <span onClick={() => handleSort(index)}>
                       {col}
                       {sortConfig.key === index
                         ? sortConfig.direction === "asc"
@@ -134,9 +133,8 @@ const CsvUploader = ({ data, setData }) => {
           </table>
         </>
       )}
-    </Fragment>
+    </>
   );
 };
 
 export default CsvUploader;
-

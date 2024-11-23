@@ -42,7 +42,8 @@ const characteristicsTab = [
 
 function ChernoffFaceTab({ data, setData }) {
   const calculateQuartiles = () => {
-    if (data.groupByColumn === null || data.selectedColumns.length === 0) return;
+    if (data.groupByColumn === null || data.selectedColumns.length === 0)
+      return;
 
     const groupIndex = data.columns.indexOf(data.groupByColumn);
     const result = [];
@@ -131,7 +132,7 @@ function ChernoffFaceTab({ data, setData }) {
   }, [data.quartiles]);
 
   return (
-    <div>
+    <main>
       <div className="controls">
         <h3>Wybierz kolumnę do grupowania:</h3>
         <div>
@@ -240,7 +241,7 @@ function ChernoffFaceTab({ data, setData }) {
           ))}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
