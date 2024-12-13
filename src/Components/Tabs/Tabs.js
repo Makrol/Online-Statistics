@@ -18,6 +18,7 @@ function Tabs() {
     groupByColumn: null,
     selectedColumns: [],
     quartiles: [],
+    calculatedQuartiles: null,
   });
 
   useEffect(() => {
