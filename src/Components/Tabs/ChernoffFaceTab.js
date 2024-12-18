@@ -100,9 +100,6 @@ function ChernoffFaceTab({ data, setData }) {
       // Obliczanie kwartylów
       const min = values[0].toFixed(2);
       const max = values[values.length - 1].toFixed(2);
-      const mean = (
-        values.reduce((sum, val) => sum + val, 0) / values.length
-      ).toFixed(2);
 
       const getQuartile = (array, q) => {
         const pos = (array.length - 1) * q;
@@ -121,7 +118,7 @@ function ChernoffFaceTab({ data, setData }) {
       const Q2 = getQuartile(values, 0.5);
       const Q3 = getQuartile(values, 0.75);
 
-      return { name: column, min, Q1, Q2, Q3, max, mean };
+      return { name: column, min, Q1, Q2, Q3, max };
     });
 debugger
     setData((prevData) => ({
@@ -267,7 +264,9 @@ debugger
             return(
               <div key={k}>
                 {v.group}
+                <div style={{display:"flex",justifyContent:"center"}}>
                 <ChernoffFace characteristics={generateCharacteristics(v.means,k)}/>
+                </div>
                 {
                   v.means.map((v2,k2)=>(
                     <div key={k2}>{v2.name}:{v2.mean}</div>

@@ -16,7 +16,7 @@ function ChernoffFace({ characteristics }) {
   } = characteristics;
 
   return (
-    <svg width="120" height="100" viewBox="0 0 120 100">
+    <svg width="130" height="100" viewBox="0 0 120 100">
       {/* Uszy */}
       <Ears posX1={15} posY1={50} posX2={85} posY2={50} size={characteristics.ears}/>
 
@@ -33,7 +33,7 @@ function ChernoffFace({ characteristics }) {
       <Nose posX={50} posY={50} size={characteristics.nose}/>
 
       {/* Usta */}
-      <Mouth size={characteristics.smile} offsetX={25} offsetY={45} width={50} height={20}/>
+      <Mouth size={characteristics.smile} offsetX={25} offsetY={52} width={50} height={20}/>
     </svg>
   );
 }

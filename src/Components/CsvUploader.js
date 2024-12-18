@@ -6,24 +6,30 @@ const CsvUploader = ({ data, setData }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      Papa.parse(file, {
-        complete: (result) => {
-          const [header, ...rows] = result.data;
+  const file = event.target.files[0];
+  if (file) {
+    Papa.parse(file, {
+      complete: (result) => {
+        const [header, ...rows] = result.data;
 
-          setData((prevData) => ({
-            ...prevData,
-            columns: header,
-            tableData: rows,
-            quartiles: [],
-          }));
-        },
-        header: false,
-        skipEmptyLines: true,
-      });
-    }
-  };
+        // Zamiana przecinków na kropki w danych
+        const processedRows = rows.map((row) =>
+          row.map((cell) => String(cell).replace(",", "."))
+        );
+
+        setData((prevData) => ({
+          ...prevData,
+          columns: header,
+          tableData: processedRows,
+          quartiles: [],
+        }));
+      },
+      header: false,
+      skipEmptyLines: true,
+    });
+  }
+};
+
 
   const handleSort = (columnIndex) => {
     let direction = "asc";

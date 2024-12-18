@@ -7,7 +7,7 @@ function Eyebrows({ size }) {
     <Fragment>
       <rect
         x="25"
-        y="30"
+        y="20"
         width="20"
         height="3"
         fill="black"
@@ -15,7 +15,7 @@ function Eyebrows({ size }) {
       />
       <rect
         x="55"
-        y="30"
+        y="20"
         width="20"
         height="3"
         fill="black"
